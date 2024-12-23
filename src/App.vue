@@ -2,8 +2,10 @@
 	<div>
 		<v-app>
 			<NavBar v-if="showTemplate" />
-				<v-main class="mx-4 mb-4">	
-			      <RouterView/>
+				<v-main class="mx-4 mb-4">
+					<div>
+						<RouterView/>
+					</div>
 				</v-main>
 			<Footer v-if="showTemplate" />
 		</v-app>
@@ -28,7 +30,7 @@ export default defineComponent({
     });
 
     return {
-      showTemplate,
+      showTemplate
     };
   }
 });
