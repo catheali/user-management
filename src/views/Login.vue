@@ -79,7 +79,9 @@
 		try {
 			await authStore.loginAuth(formLogin.value);
 			if (authStore.loginData) {
-				const redirectTo = router.currentRoute.value.query.redirect || '/';
+				const redirectTo = typeof router.currentRoute.value.query.redirect === 'string'
+				? router.currentRoute.value.query.redirect
+				: '/';
 				router.push(redirectTo);
 				authStore.cleanError();
 			}
