@@ -1,159 +1,99 @@
-# Teste prático: Gerenciamento de Usuários
 
-## Objetivo
-Avaliar suas habilidades em **Vue 3 (Composition API)**, **TypeScript**, **POO**, consumo de APIs REST, e utilização do **Vuetify** para criar interfaces modernas e responsivas. O objetivo é criar uma aplicação funcional com funcionalidades completas de gerenciamento de usuários.
+# Gerenciamento de Usuários
 
----
+Este projeto é uma aplicação de gerenciamento de usuários construída com **Vue 3**, **TypeScript**, **Vue Router**, **Pinia**, **Axios**, e **Vuetify**. Ele possui uma API simulada usando **JSON Server**, que é automaticamente ativada junto com o comando `npm run dev`. A aplicação permite que usuários façam login, visualizem e manipulem dados de usuários, com funcionalidades diferenciadas para administradores e usuários comuns.
 
-## Descrição do Teste
-Você deve criar uma aplicação de **Gerenciamento de Usuários** com as seguintes funcionalidades:
 
-### Funcionalidades
 
-1. **Tela de Login**
-   - Crie uma rota de login onde o usuário pode se autenticar utilizando:
-     - **Usuário e Senha:** Validar com base no arquivo `db.json` da API fake.
-     - **Tipo de Usuário:**
-       - Tipo 1: Admin (permissão para cadastrar, editar e excluir usuários).
-       - Tipo 2: Comum (permissão apenas para visualizar a tabela de usuários).
-   - Armazene os dados do usuário logado utilizando a **store do Pinia**.
+## Funcionalidades
 
-2. **Tela de Criação de Usuários** (Apenas para Admins)
-   - Formulário para cadastrar um usuário com os seguintes campos:
+###  **Tela de Login**
+   - **Rota de login** onde o usuário pode se autenticar utilizando:
+     - **Usuário e Senha**: A validação é feita com base no arquivo `db.json` da API fake.
+     - **Tipo de Usuário**:
+       - **Admin (Tipo 1)**: Permite cadastrar, editar e excluir usuários.
+       - **Comum (Tipo 2)**: Permite apenas visualizar a tabela de usuários.
+   - Após o login, os dados do usuário autenticado são armazenados utilizando a **store do Pinia**.
+
+###  **Tela de Criação de Usuários** (Apenas para Admins)
+   - **Formulário de cadastro de usuário** com os seguintes campos:
      - **Nome** (obrigatório).
      - **Matrícula** (obrigatória e única).
-     - **Idade** (entre 18 e 60).
-     - **Cargo** (dropdown com opções predefinidas como: "Analista", "Gerente", "Desenvolvedor", etc.).
-     - **Tipo de Usuário:** Se é admin (tipo 1) ou comum (tipo 2).
+     - **Idade** (entre 18 e 60 anos).
+     - **Cargo** (campo dropdown com opções como "Analista", "Gerente", "Desenvolvedor", etc.).
+     - **Tipo de Usuário**: Se é Admin (Tipo 1) ou Comum (Tipo 2).
    - Após o cadastro:
-     - Instanciar o usuário utilizando a classe `Usuario`.
-     - Utilizar os **getters e setters** para manipulação dos dados.
-     - Chamar o método `Service.createUsuario()` para fazer o **POST** na API fake e salvar o usuário.
+     - Instancia um usuário utilizando a classe `Usuario`.
+     - Utiliza os **getters e setters** para manipulação dos dados.
+     - Chama o método `Service.createUsuario()` para fazer um **POST** na API fake e salvar o usuário.
 
-3. **Tela de Listagem de Usuários**
-   - Exibir uma tabela de usuários utilizando o **Vuetify**, com as colunas:
-     - Nome.
-     - Matrícula.
-     - Idade.
-     - Cargo.
-     - Tipo de Usuário (Admin ou Comum).
-   - Permitir filtrar os usuários por qualquer um dos campos acima.
-   - Implementar paginação na tabela.
-   - Para carregar os dados, chamar o método `Service.getUsuarios()` que faz o **GET** na API fake.
-   - Usuários do tipo comum podem apenas visualizar esta tabela.
+### **Tela de Listagem de Usuários**
+   - Exibe uma tabela de usuários utilizando **Vuetify**, com as seguintes colunas:
+     - Nome
+     - Matrícula
+     - Idade
+     - Cargo
+     - Tipo de Usuário (Admin ou Comum)
+   - **Filtros**: Permite filtrar a lista de usuários por qualquer uma das colunas.
+   - **Paginação**: Implementação de paginação na tabela.
+   - Usuários do tipo **Comum** podem visualizar apenas a tabela, sem permissões para edição ou exclusão.
 
-4. **Modal de Edição e Exclusão de Usuários** (Apenas para Admins)
-   - **Editar:**
-     - Abrir um modal com o formulário preenchido para alterar os dados do usuário.
-     - Após confirmação, chamar o método `Service.updateUsuario(id, dadosAtualizados)` para fazer o **PUT** na API.
-   - **Excluir:**
-     - Abrir um modal para confirmação antes de excluir o usuário.
-     - Chamar o método `Service.deleteUsuario(id)` para fazer o **DELETE** na API.
+### **Modal de Edição e Exclusão de Usuários** (Apenas para Admins)
 
----
+- Um modal é aberto com um formulário preenchido para editar os dados do usuário.
+- Um modal de confirmação é mostrado antes de excluir um usuário.
 
-## Requisitos Técnicos
-
-1. **Classe `Usuario`**
-   - Implementar uma classe que represente um usuário, contendo:
-     ```typescript
-     class Usuario {
-       private nome: string;
-       private matricula: string;
-       private idade: number;
-       private cargo: string;
-       private tipo: number; // 1 para admin, 2 para comum
-     }
-     ```
-
-2. **Classe `Service`**
-   - Implementar uma classe com os métodos para consumir a API fake:
-     ```typescript
-     class Service {
-       static async getUsuarios() { /* Implementar GET */ }
-       static async createUsuario(usuario: Usuario) { /* Implementar POST */ }
-       static async updateUsuario(id: string, dados: Partial<Usuario>) { /* Implementar PUT */ }
-       static async deleteUsuario(id: string) { /* Implementar DELETE */ }
-     }
-     ```
-
-3. **API Fake**
-   - Utilize o [JSON Server](https://github.com/typicode/json-server) para simular a API.
-   - Configure os seguintes endpoints:
-     - `/usuarios`: Para armazenar os dados dos usuários.
+### **API Fake com JSON Server**
+   - A API fake é configurada utilizando o **JSON Server**, que serve os seguintes endpoints:
+     - `/usuarios`: Para armazenar e manipular dados dos usuários.
      - `/login`: Para validação fake de login.
+   - A configuração do **JSON Server** é feita para rodar automaticamente junto com o servidor de desenvolvimento (`npm run dev`).
 
-4. **Estilização**
-   - Utilize **Vuetify** para criar uma interface responsiva.
-   - Adicione estilos personalizados para melhorar a experiência do usuário.
+### **Integração com Pinia**
+   - A store do **Pinia** armazena os dados do usuário logado e outros estados necessários para a aplicação, como a lista de usuários.
+
+### 5. **Estilização**
+   - A interface é construída com **Vuetify**, garantindo uma experiência responsiva e moderna.
+
+
+## Tecnologias Utilizadas
+
+- **Vue 3**: Framework JavaScript para construir a interface.
+- **TypeScript**: Para tipagem estática e maior segurança no desenvolvimento.
+- **Vue Router**: Para navegação entre páginas.
+- **Pinia**: Para gerenciamento de estado da aplicação.
+- **Axios**: Para consumo da API fake (JSON Server).
+- **Vuetify**: Para construção da interface com componentes prontos e responsivos.
+- **JSON Server**: Para simulação de uma API RESTful fake.
+- **Concurrently**: Para rodar o frontend e a API fake (JSON Server) simultaneamente.
 
 ---
 
-## Instruções para Rodar
+## Instruções de Instalação e Execução
 
-### Configuração da API Fake
-
-1. Instale o JSON Server:
+1. **Clone o repositório**:
    ```bash
-   npm install -g json-server
+   git clone https://github.com/catheali/user-management.git
+   cd user-management
    ```
-2. Crie um arquivo `db.json` com o seguinte conteúdo inicial:
-   ```json
-   {
-     "usuarios": [],
-     "login": [
-       { "id": 1, "usuario": "admin", "senha": "1234", "tipo": 1 },
-       { "id": 2, "usuario": "comum", "senha": "5678", "tipo": 2 }
-     ]
-   }
-   ```
-3. Inicie o servidor:
-   ```bash
-   json-server --watch db.json --port 3000
-   ```
-4. Endereços da API:
-   - Usuários: `http://localhost:3000/usuarios`
-   - Login: `http://localhost:3000/login`
 
-### Configuração do Projeto Vue
-
-1. Instale as dependências:
+2. **Instale as dependências**:
    ```bash
    npm install
    ```
-2. Inicie a aplicação:
+
+3. **Inicie a aplicação**:
+   - O comando abaixo irá iniciar tanto o servidor de desenvolvimento da aplicação Vue quanto o JSON Server simultaneamente:
    ```bash
    npm run dev
    ```
 
----
-
-## O que Avaliaremos
-
-1. **Qualidade do Código**
-   - Uso correto de TypeScript.
-   - Implementação das classes `Usuario` e `Service`.
-   - Organização e boas práticas.
-
-2. **Integração com API**
-   - Consumo correto da API fake com os métodos (GET, POST, PUT, DELETE).
-
-3. **Interface e Usabilidade**
-   - Uso do Vuetify e responsividade.
-   - Funcionalidades de filtro, paginação e modal.
-
-4. **Extras (Diferenciais):**
-   - Testes unitários para a classe `Service`.
-   - Feedback visual (ex.: mensagens de sucesso ou erro).
+4. **Acesse a aplicação**:
+   - A aplicação estará disponível em `http://localhost:5173` no seu navegador.
+   - A api estará disponível em `http://localhost:5000` no seu navegador.
 
 ---
 
-## Prazo de Entrega
-O teste deve ser entregue até **terça-feira (24/12), ao meio dia**.
+## Considerações Finais
 
----
-
-## Entrega
-Envie o projeto em um repositório público no GitHub para o email contato@goatsd.com contendo:
-- O código-fonte completo.
-- Um arquivo `README.md` com instruções para execução.
+Este projeto é uma excelente base para a criação de sistemas de gerenciamento de usuários, com funcionalidades essenciais de autenticação, CRUD de usuários, e um design simples e funcional.
