@@ -21,10 +21,24 @@ export const useUsuarioStore = defineStore('usuario', () => {
 		}
 	}
 
+	const createUsuario = async (usuarioData: { nome: string; matricula: string; idade: number; cargo: string; tipo: number }) => {
+		loading.value = true;
+		try {
+		  await UserService.createUsuario(usuarioData);
+			getUsuarios();
+		} catch (err) {
+			console.error('Erro ao criar usuário:', err);
+			throw new Error('Erro ao criar usuário');
+		} finally {
+		  loading.value = false;
+		}
+	  };
+
 	return {
 		usuariosList,
 		loading,
 		error,
-		getUsuarios
+		getUsuarios,
+		createUsuario
 	}
 });
