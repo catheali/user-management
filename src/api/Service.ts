@@ -50,6 +50,22 @@ export class Service {
     }
   }
 
+  public static async updateUsuario(matricula: string, dados: { nome: string; matricula: string; idade: number; cargo: string; tipo: number }): Promise<Usuario> {
+    try {
+	  const usuarioId = await Service.getUsuarioIdByMatricula(matricula)
+      const response = await apiUsers.put(`/${usuarioId}`, {
+        nome: dados.nome,
+		matricula: dados.matricula,
+        idade: dados.idade,
+        cargo: dados.cargo,
+        tipo: dados.tipo,
+      });
+      
+    } catch (error) {
+      console.error('Erro ao atualizar usuário:', error);
+      throw new Error('Erro ao atualizar usuário');
+    }
+  }
     try {
       const response = await apiLogin.get('/');
       const usuarios: LoginData[] = response.data;
