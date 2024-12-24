@@ -1,8 +1,23 @@
 import { apiUsers, apiLogin } from './api';
+import { Usuario } from '@/types/models/Usuario';
 import { ErrorState, LoginData } from "@/types/types"; 
 
 export class Service {
-  static async getUsuarios() {
+
+  static async getUsuarios(): Promise<Usuario[]> {
+    try {
+      const response = await apiUsers.get('/');
+      return response.data.map((usuarioData: any) => new Usuario(
+        usuarioData.nome,
+        usuarioData.matricula,
+        usuarioData.idade,
+        usuarioData.cargo,
+        usuarioData.tipo
+      ));
+    } catch (error) {
+      console.error('Erro ao obter usuários:', error);
+      throw new Error('Erro ao obter usuários');
+    }
   }
 
   static async createUsuario(usuario: any) {
