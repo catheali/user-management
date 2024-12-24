@@ -33,15 +33,13 @@ export class Service {
       const usuarioAutenticado = usuarios.find(
         (u) => u.usuario === usuario && u.senha === senha
       );
-
       if (usuarioAutenticado) {
-        return { error: { valid: false, message: '' }, usuario: usuarioAutenticado }; 
-      }
-
-      return { error: { valid: true, message: 'Usuário ou senha inválidos' }, usuario: null };
+        return usuarioAutenticado; 
+	  }
+      return  { valid: true, message: 'Usuário ou senha inválidos' };
     } catch (error) {
       console.error('Erro ao autenticar:', error);
-      return { error: { valid: true, message: 'Erro ao autenticar. Tente novamente mais tarde.' }, usuario: null };
+      return { valid: true, message: 'Erro ao autenticar. Tente novamente mais tarde.' };
     }
   }
 
