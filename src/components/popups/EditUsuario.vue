@@ -35,15 +35,6 @@
   
 				<v-col cols="12" md="4" sm="6">
 				  <v-text-field
-					label="Matrícula"
-					required
-					v-model="formUsuario.matricula"
-					:rules="[rules.required]"
-				  ></v-text-field>
-				</v-col>
-  
-				<v-col cols="12" md="4" sm="6">
-				  <v-text-field
 					label="Idade"
 					required
 					type="number"
@@ -142,7 +133,7 @@
 	  const userStore = useUsuarioStore();
   
 	  const editarUsuario = async () => {
-		if (formUsuario.value.nome.length === 0 || formUsuario.value.matricula.length === 0 || formUsuario.value.cargo.length === 0) {
+		if (formUsuario.value.nome.length === 0  || formUsuario.value.cargo.length === 0) {
 		  valid.value = false;
 		  alertMessage.value = 'Campos obrigatórios.';
 		  alertType.value = 'error';
@@ -154,11 +145,12 @@
 		}
 		
 		try {
-		 await userStore.updateUsuario(formUsuario.value); 
+		 await userStore.updateUsuario(props.user.matricula,formUsuario.value); 
 		  alertMessage.value = 'Usuário atualizado com sucesso!';
 		  alertType.value = 'success';
 		  alertColor.value = 'green';
 		  setTimeout(() => {
+			userStore.getUsuarios();
 			dialog.value = false;
 			resetForm();
 		  }, 2000);

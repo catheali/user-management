@@ -4,16 +4,10 @@ import { ErrorState, LoginData } from "@/types/types";
 
 export class Service {
 
-  static async getUsuarios(): Promise<Usuario[]> {
+  public static async getUsuarios(): Promise<Usuario[]> {
     try {
       const response = await apiUsers.get('/');
-      return response.data.map((usuarioData: any) => new Usuario(
-        usuarioData.nome,
-        usuarioData.matricula,
-        usuarioData.idade,
-        usuarioData.cargo,
-        usuarioData.tipo
-      ));
+      return response.data;
     } catch (error) {
       console.error('Erro ao obter usuários:', error);
       throw new Error('Erro ao obter usuários');
@@ -50,6 +44,35 @@ export class Service {
     }
   }
 
+  public static async updateUsuario(matricula: string, dados: { nome: string; matricula: string; idade: number; cargo: string; tipo: number }): Promise<Usuario> {
+    try {
+	  const usuarioId = await Service.getUsuarioIdByMatricula(matricula)
+      const response = await apiUsers.put(`/${usuarioId}`, {
+        nome: dados.nome,
+		matricula: dados.matricula,
+        idade: dados.idade,
+        cargo: dados.cargo,
+        tipo: dados.tipo,
+      });
+      
+    } catch (error) {
+      console.error('Erro ao atualizar usuário:', error);
+      throw new Error('Erro ao atualizar usuário');
+    }
+  }
+
+ public static async deleteUsuario(matricula: string): Promise<void> {
+    try {
+	  const usuarioId = await Service.getUsuarioIdByMatricula(matricula)
+      await apiUsers.delete(`/${usuarioId}`);
+      console.log(`Usuário com ID ${usuarioId} excluído com sucesso.`);
+    } catch (error) {
+      console.error('Erro ao excluir usuário:', error);
+      throw new Error('Erro ao excluir usuário');
+    }
+  }
+
+ public static async login(usuario: string, senha: string): Promise<LoginData | ErrorState > {
     try {
       const response = await apiLogin.get('/');
       const usuarios: LoginData[] = response.data;
@@ -63,6 +86,19 @@ export class Service {
     } catch (error) {
       console.error('Erro ao autenticar:', error);
       return { valid: true, message: 'Erro ao autenticar. Tente novamente mais tarde.' };
+    }
+  }
+  
+  public static async getUsuarioIdByMatricula(matricula: string): Promise<string | null> {
+    try {
+      const response = await  await apiUsers.get(`/?matricula=${matricula}`);
+      if (response.data.length > 0) {
+        return response.data[0].id;
+      }
+      return null;
+    } catch (error) {
+      console.error('Erro ao buscar usuário pela matrícula:', error);
+      throw new Error('Erro ao buscar usuário pela matrícula');
     }
   }
 

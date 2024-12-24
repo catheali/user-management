@@ -34,11 +34,41 @@ export const useUsuarioStore = defineStore('usuario', () => {
 		}
 	  };
 
+
+	const updateUsuario = async (id: string, usuarioData: { nome: string; matricula: string; idade: number; cargo: string; tipo: number } ) => {
+		loading.value = true;
+		try {
+			 await UserService.updateUsuario(id, usuarioData);
+			 getUsuarios();
+		} catch (err) {
+			console.error('Erro ao atualizar usuário:', err);
+			error.value = { valid: true, message: 'Erro ao atualizar usuário' };
+		} finally {
+			loading.value = false;
+		}
+	};
+
+	const deleteUsuario = async (matricula: string) => {
+		loading.value = true;
+		try {
+		  await UserService.deleteUsuario(matricula);
+			getUsuarios();
+		} catch (err) {
+		  console.error('Erro ao excluir usuário:', err);
+		  error.value = { valid: true, message: 'Erro ao excluir usuário' };
+		} finally {
+		  loading.value = false;
+		}
+	  };
+	
+
 	return {
 		usuariosList,
 		loading,
 		error,
 		getUsuarios,
-		createUsuario
+		createUsuario,
+		updateUsuario,
+		deleteUsuario
 	}
 });

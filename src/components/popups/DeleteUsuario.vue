@@ -16,10 +16,14 @@
 		
 		<v-card
 		  prepend-icon="mdi-account-minus"
-		  title="Deseja excluir o usuário ?"
+		  :title="`Deseja excluir o usuário  ${user.nome} ?`"
 		>
 		<v-card-text>
-
+			<div>
+				<v-alert v-if="alertMessageDelete" :type="alertTypeDelete" :color="alertColor" dismissible>
+					{{ alertMessageDelete }}
+				</v-alert>
+			</div>
 		</v-card-text>
 		<v-card-actions>
 			  <v-spacer></v-spacer>
@@ -32,9 +36,9 @@
   
 			  <v-btn
 				color="error"
-				type="submit"
 				text="Excluir Usuário"
 				variant="tonal"
+				@click="deleteUsuario(user.matricula)"
 			  ></v-btn>
 			</v-card-actions>
 		</v-card>
@@ -55,30 +59,47 @@
 	  }
 	},
 	setup(props) {
-	  
+	  const { user } = props;
 	  const dialogDelete = ref(false);
 	  const alertMessageDelete = ref('');
 	  const alertTypeDelete = ref<'success' | 'error' | 'warning' | 'info' | undefined>('success');
 	  const alertColorDelete = ref('green');
-  
-  
+      
 	  const userStore = useUsuarioStore();
   
-	  const deleteUsuario = async () => {
-		userStore.getUsuarios()
-		console.log(props)
-		console.log('aqui')
+	  const deleteUsuario = async (matricula:string) => {
+		try {
+			//await userStore.deleteUsuario(matricula);
+			alertMessageDelete.value = 'Usuário deletado com sucesso!';
+			alertTypeDelete.value = 'success';
+			alertColorDelete.value = 'green';	
+			setTimeout(() => {
+				userStore.getUsuarios();
+				dialogDelete.value = false;  
+				resetForm();
+			}, 2000);
+		} catch (error) {
+			console.error(error);
+			alertMessageDelete.value = 'Erro ao deletar o usuário!';
+			alertTypeDelete.value = 'error';
+			alertColorDelete.value = 'red';
+		}
+
+		const resetForm = () => {
+			alertMessageDelete.value = '';
+			alertTypeDelete.value = 'success';
+			alertColorDelete.value = '';
+		};
 		
 	  };
-  
-	  
   
 	  return {
 		dialogDelete,
 		deleteUsuario,
 		alertMessageDelete,
 		alertTypeDelete,
-		alertColorDelete
+		alertColorDelete,
+		user
 	  };
 	}
   });
