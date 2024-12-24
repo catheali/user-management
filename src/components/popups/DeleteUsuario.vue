@@ -20,7 +20,7 @@
 		>
 		<v-card-text>
 			<div>
-				<v-alert v-if="alertMessageDelete" :type="alertTypeDelete" :color="alertColor" dismissible>
+				<v-alert v-if="alertMessageDelete" :type="alertTypeDelete" :color="alertColorDelete" dismissible>
 					{{ alertMessageDelete }}
 				</v-alert>
 			</div>
@@ -69,7 +69,8 @@
   
 	  const deleteUsuario = async (matricula:string) => {
 		try {
-			//await userStore.deleteUsuario(matricula);
+
+			 await userStore.deleteUsuario(matricula);
 			alertMessageDelete.value = 'Usuário deletado com sucesso!';
 			alertTypeDelete.value = 'success';
 			alertColorDelete.value = 'green';	
@@ -77,7 +78,7 @@
 				userStore.getUsuarios();
 				dialogDelete.value = false;  
 				resetForm();
-			}, 2000);
+			}, 5000);
 		} catch (error) {
 			console.error(error);
 			alertMessageDelete.value = 'Erro ao deletar o usuário!';
