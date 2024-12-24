@@ -1,79 +1,76 @@
 export class Usuario {
-	private static idCounter = 1; 
 	private static matriculasUsadas: Set<string> = new Set();
-	private id: number;
-	private nome: string;
-	private matricula: string;
-	private idade: number;
-	private cargo: string;
-	private tipo: 1 | 2; 
+	private _nome: string;
+	private _matricula: string;
+	private _idade: number;
+	private _cargo: string;
+	private _tipo: number; 
   
 	constructor(
 	  nome: string,
 	  matricula: string,
 	  idade: number,
 	  cargo: string,
-	  tipo: 1 | 2
+	  tipo: number
 	) {
-	  this.id = Usuario.idCounter++;  
-	  this.nome = nome;
-	  this.idade = idade;
-	  this.cargo = cargo;
-	  this.tipo = tipo;
+	   
+	  this._nome = nome;
+	  this._idade = idade;
+	  this._cargo = cargo;
+	  this._tipo = tipo;
 
 	  if (Usuario.matriculasUsadas.has(matricula)) {
 		throw new Error(`Matrícula "${matricula}" já foi cadastrada.`);
 	  }
 
-	  this.matricula = matricula;
+	  this._matricula = matricula;
 	  Usuario.matriculasUsadas.add(matricula);
 	}
   
-	getId(): number {
-	  return this.id;
+	public get nome(): string {
+	  return this._nome;
 	}
   
-	getNome(): string {
-	  return this.nome;
-	}
-  
-	setNome(nome: string): void {
-	  this.nome = nome;
+	public set nome(nome: string) {
+	  this._nome = nome;
 	}
 
-	getMatricula(): string {
-		return this.matricula;
+	public get matricula(): string {
+	   return this._matricula;
 	}
 	
-	setMatricula(matricula: string): void {
-	  this.matricula = matricula;
+	public set matricula(matricula: string) {
+	  this._matricula = matricula;
 	}
 
-	getIdade(): number {
-		return this.idade;
+	public get idade(): number {
+		return this._idade;
 	}
 	
-	setIdade(idade: number): void {
-	  this.idade = idade;
+	public set idade(idade: number) {
+		if (idade < 18 || idade > 60) {
+			throw new Error('A idade deve estar entre 18 e 60 anos.');
+		  }
+		  this._idade = idade;
 	}
 
-	getCargo(): string {
-		return this.cargo;
+	public get cargo(): string {
+		return this._cargo;
 	}
 	
-	setCargo(cargo: string): void {
-	  this.cargo = cargo;
+	public set cargo(cargo: string) {
+	  this._cargo = cargo;
 	}
   
-	getTipo(): number {
-	  return this.tipo;
+	public get tipo(): number {
+	  return this._tipo;
 	}
   
-	setTipo(tipo: 1 | 2): void {
-	  this.tipo = tipo;
+	public set tipo(tipo: number) {
+		if (tipo !== 1 && tipo !== 2) {
+			throw new Error('O tipo deve ser 1 ou 2');
+		  }
+	  this._tipo = tipo;
 	}
-  
-	isAdmin(): boolean {
-	  return this.tipo === 1;
-	}
+
 } 
