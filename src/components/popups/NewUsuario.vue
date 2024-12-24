@@ -25,7 +25,7 @@
 				<v-row dense>
 					<v-col cols="12" md="4" sm="6">
 						<v-text-field
-						label="Nome*"
+						label="Nome"
 						required
 					v-model="formUsuario.nome"
 					:rules="[rules.required, rules.min]" 
@@ -34,7 +34,7 @@
 			
 					<v-col cols="12" md="4" sm="6">
 						<v-text-field
-						label="Matrícula*"
+						label="Matrícula"
 						required
 						v-model="formUsuario.matricula"
 						></v-text-field>
@@ -42,7 +42,7 @@
 					
 					<v-col cols="12" md="4" sm="6">
 						<v-text-field
-						label="Idade*"
+						label="Idade"
 						required
 						type="number"
 						min="18"
@@ -65,7 +65,7 @@
 					<v-col cols="12" md="4" sm="6">
 						<v-select
 						:items="tipoOptions"
-						label="Tipo de usuário*"
+						label="Tipo de usuário"
 						item-title="label"
 						item-value="value"
 						required
@@ -73,9 +73,7 @@
 						v-model="formUsuario.tipo"
 						></v-select>
 					</v-col>
-			</v-row>
-			
-			<small class="text-caption text-medium-emphasis">*indicates required field</small>
+			</v-row>			
 		</v-card-text>
         <v-divider></v-divider>
         <v-card-actions>

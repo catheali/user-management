@@ -18,7 +18,7 @@
 						</v-card-text>
 					</div>
 					<v-divider></v-divider>
-					<v-btn to="/" class="mt-5 text-h6 text-button " color="black">Voltar para o inicio</v-btn>
+					<v-btn to="/" class="mt-5 text-h6 text-button " text="Voltar para o inicio" color="black"></v-btn>
 				</v-col>
 			</v-row>
 		</v-card>
