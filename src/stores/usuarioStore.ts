@@ -47,6 +47,21 @@ export const useUsuarioStore = defineStore('usuario', () => {
 			loading.value = false;
 		}
 	};
+
+	const deleteUsuario = async (matricula: string) => {
+		loading.value = true;
+		try {
+		  await UserService.deleteUsuario(matricula);
+			getUsuarios();
+		} catch (err) {
+		  console.error('Erro ao excluir usuário:', err);
+		  error.value = { valid: true, message: 'Erro ao excluir usuário' };
+		} finally {
+		  loading.value = false;
+		}
+	  };
+	
+
 	return {
 		usuariosList,
 		loading,
@@ -54,5 +69,6 @@ export const useUsuarioStore = defineStore('usuario', () => {
 		getUsuarios,
 		createUsuario,
 		updateUsuario,
+		deleteUsuario
 	}
 });
